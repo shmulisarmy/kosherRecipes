@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title if title else "Recipes" }}</title>
+    {% block css %}{% endblock %}
+    <script src="/static/script.js?nocache"></script>
+    <link rel="stylesheet" href="/static/styles.css?nocache">
+    <link rel="icon" href="https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg">
+    <script src="https://unpkg.com/htmx.org"></script>
+</head>
+<body>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/recipes">Recipes</a>
+        </nav>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+</body>
+</html>
