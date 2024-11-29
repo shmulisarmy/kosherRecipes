@@ -5,8 +5,7 @@ import psycopg2
 
 
 
-# conn = psycopg2.connect(user="postgres", password="flithbo3B", host="127.0.0.1", port="5432", database="postgres")
-conn = None
+conn = None #psycopg2.connect(user="postgres", password="flithbo3B", host="127.0.0.1", port="5432", database="postgres")
 
 
 conn2 = psycopg2.connect(
