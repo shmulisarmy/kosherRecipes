@@ -1,0 +1,75 @@
+<script>
+function recipe_ids(recipie_container_element){
+    const ids = []
+    for (const element of recipie_container_element.children) {
+        ids.push(element.dataset.id)
+    }
+}
+</script>
+
+{% import "macros.html" as macros %}
+
+{% macro recipe_section(recipes, recipe_columns, recipe_image_count) %}
+
+
+<section class="recipes">
+
+    <button onclick="sort_html_elements(document.querySelector('.recipe-container'), (recipe) => parseInt(recipe.dataset.time_to_make))">sort by time_to_make</button>
+    <button onclick="sort_html_elements(document.querySelector('.recipe-container'), (recipe) => parseInt(recipe.dataset.time_to_make)*-1)">sort by time_to_make reverse</button>
+    <button onclick="sort_html_elements(document.querySelector('.recipe-container'), (recipe) => recipe.dataset.name)">sort by alphabet</button>
+    <div class="recipe-container">
+        {% for recipe in recipes %}
+        <div draggable="true" 
+        
+        data-id="{{recipe[recipe_columns.index('id')]}}"
+        data-time_to_make="{{ recipe[recipe_columns.index('time_to_make')] }}"
+        data-name="{{ recipe[recipe_columns.index('name')] }}"
+        id="recipe-{{ recipe[recipe_columns.index('id')] }}"
+        ondragover="dragged_onto_id = {{ recipe[recipe_columns.index('id')] }}"
+        ondragstart="current_dragged = {{ recipe[recipe_columns.index('id')] }}"
+        ondragend="dragend()"
+        hx-on="intersect:console.log('intersected')" tabindex="0" class="recipe">
+        <a href="/recipe/{{ recipe[recipe_columns.index('id')] }}" >
+        <img src="/static/recipe_images/{{ loop.index % recipe_image_count + 1 }}.png" alt="{{ recipe.name }}">
+        </a>
+        <div class="loading-indicator loading-indicator-{{recipe[recipe_columns.index('id')]}}" >
+        ......
+    </div>
+        
+        <div style="display: flex; align-items: center;" class="flex">
+            
+            {% if recipe[recipe_columns.index('is_liked')] %}
+            {{macros.when_liked(recipe[recipe_columns.index("id")])}}
+            {% else %}
+            {{macros.when_not_liked(recipe[recipe_columns.index("id")])}}
+            {% endif %}
+        </div>
+        
+        <h2>{{ recipe[recipe_columns.index("name")] }}</h2>
+        <div style="display: flex; gap: 10px; align-items: center;" class="text">
+            
+            <svg class="oven-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="32" height="32">
+                <rect x="8" y="16" width="48" height="32" rx="4" ry="4" fill="#cccccc"></rect>
+                <rect x="16" y="24" width="32" height="16" fill="#ffffff"></rect>
+                <circle cx="16" cy="10" r="2" fill="#333"></circle>
+                <circle cx="24" cy="10" r="2" fill="#333"></circle>
+                <circle cx="32" cy="10" r="2" fill="#333"></circle>
+                <rect x="12" y="40" width="40" height="6" fill="#999"></rect>
+            </svg>
+            
+            <p>Time to make: {{ recipe[recipe_columns.index("time_to_make")] }}</p>
+        </div>
+        <!-- <a href="/recipe/{{ recipe[recipe_columns.index('id')] }}">View</a> -->
+        <!-- <ul>
+            {% for ingredient, amount in recipe[recipe_columns.index("ingredients")].items() %}
+            <li>{{ ingredient }}: {{ amount }}</li>
+            {% endfor %}
+        </ul> -->
+        <!-- <button class="x" onclick="this.closest('.recipe').remove()">X</button> -->
+    </div>
+    {% endfor %}
+</div>
+</section>
+
+
+{% endmacro %}

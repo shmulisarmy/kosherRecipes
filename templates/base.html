@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +10,48 @@
     <link rel="stylesheet" href="/static/styles.css?nocache">
     <link rel="icon" href="https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg">
     <script src="https://unpkg.com/htmx.org"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <script>
+        function toggleDarkMode() {
+            const html = document.querySelector("html");
+            html.classList.toggle("dark-mode");
+        }
+    </script>
+    <style>
+    @keyframes bounce{
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+        .loading-indicator{
+            display: none;
+            font-size: 1.5rem;
+            text-shadow: 1px 3px 10px grey;
+            &.htmx-request{
+
+            display: block;
+            animation: bounce 1s infinite;
+            }
+        }
+    </style>
 </head>
+
 <body>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/recipes">Recipes</a>
-        </nav>
-        <main>
-            {% block content %}{% endblock %}
-        </main>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/recipes">Recipes</a>
+        <button id="dark-mode-toggle" onclick="toggleDarkMode()">Dark Mode</button>
+    </nav>
+
+
+        {% block content %}{% endblock %}
 </body>
+
 </html>

@@ -1,0 +1,33 @@
+
+
+{% macro when_not_liked(recipe_id) %}
+
+<div  style="display: flex; align-items: center; gap: 10px;" class="when-not-liked">
+    <button hx-indicator=".loading-indicator-{{recipe_id}}" hx-target="closest .when-not-liked"
+    hx-swap="outerHTML" hx-post="/like-recipe/{{ recipe_id }}">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+    </svg>
+</button>
+<p>not liked</p>
+</div>
+
+{% endmacro %}
+
+
+{% macro when_liked(recipe_id) %}
+
+<div style="display: flex; align-items: center; gap: 10px;" class="when-liked">
+
+    <button hx-indicator=".loading-indicator-{{recipe_id}}" hx-target="closest .when-liked" hx-swap="outerHTML" hx-post="/unlike-recipe/{{ recipe_id }}">unlike</button>
+    <p>liked</p>
+</div>
+
+{% endmacro %}
+
+
+
+
+
+
+
