@@ -5,27 +5,30 @@ import psycopg2
 
 
 
-conn = psycopg2.connect(user="postgres", password="flithbo3B", host="127.0.0.1", port="5432", database="postgres")
+# conn = psycopg2.connect(user="postgres", password="flithbo3B", host="127.0.0.1", port="5432", database="postgres")
+conn = None
 
 
 conn2 = psycopg2.connect(
     "postgresql://neondb_owner:IQp4d1ZwzbVm@ep-falling-bird-a8mn4yxu.eastus2.azure.neon.tech/neondb?sslmode=require"
 )
 
-cursor = conn2.cursor()
-cursor.execute("INSERT INTO users (name, password) VALUES ('shmuli', 'i like dogs');")
-conn2.commit()  # Commit the transaction
 
-cursor.execute("SELECT * FROM users where id between 3 and 5;")
-rows = cursor.fetchall()
-print(cursor.description)
 
-for row in rows:
-    print(row)
+def serve():
+    cursor = conn2.cursor()
 
-cursor.close()
 
-conn2.close()
+
+    cursor.execute("select * from users where id between 10 and 20")
+
+    rows = cursor.fetchall()
+
+
+    return rows
+
+
+
 
 
 
@@ -52,8 +55,6 @@ def liked_recipies(user_id: int):
 
 
 def makeable_recipes(ingredients: dict[str, float]):
-    # print(f'in makeable_recipes: {ingredients = }')
-    
 
 
     """
@@ -90,7 +91,6 @@ def pop_in_the_oven():
     cursor.close()
     return {"data": rows, "columns": [desc[0] for desc in cursor.description]}
 
-# print(makeable_recipes({"apple": 1, "banana": 2}))
 
 
 

@@ -28,6 +28,8 @@ partials = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse) 
 async def home(request: Request):
     """Homepage with a welcome message."""
+    from database import serve
+    return serve()
     return templates.TemplateResponse("home.html", {"request": request})
 
 
