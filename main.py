@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.requests import Request
 from fastapi.responses import RedirectResponse
+import uvicorn
 
 import database as db
 from user import User
@@ -25,11 +26,8 @@ templates = Jinja2Templates(directory="templates")
 partials = Jinja2Templates(directory="templates")
 
 
-@app.get("/") 
+@app.get("/", response_class=HTMLResponse) 
 async def home(request: Request):
-    """Homepage with a welcome message."""
-    from database import serve
-    return serve()
     return templates.TemplateResponse("home.html", {"request": request})
 
 
@@ -123,3 +121,7 @@ async def login(request: Request):
     current_user = attempted_user
 
     return RedirectResponse(url="/recipes", status_code=status.HTTP_302_FOUND)
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, port=8000)

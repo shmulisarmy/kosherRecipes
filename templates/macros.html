@@ -1,7 +1,6 @@
 
 
 {% macro when_not_liked(recipe_id) %}
-
 <div  style="display: flex; align-items: center; gap: 10px;" class="when-not-liked">
     <button hx-indicator=".loading-indicator-{{recipe_id}}" hx-target="closest .when-not-liked"
     hx-swap="outerHTML" hx-post="/like-recipe/{{ recipe_id }}">

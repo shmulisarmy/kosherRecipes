@@ -13,7 +13,6 @@ function recipe_ids(recipie_container_element){
 
 
 <section class="recipes">
-
     <button onclick="sort_html_elements(document.querySelector('.recipe-container'), (recipe) => parseInt(recipe.dataset.time_to_make))">sort by time_to_make</button>
     <button onclick="sort_html_elements(document.querySelector('.recipe-container'), (recipe) => parseInt(recipe.dataset.time_to_make)*-1)">sort by time_to_make reverse</button>
     <button onclick="sort_html_elements(document.querySelector('.recipe-container'), (recipe) => recipe.dataset.name)">sort by alphabet</button>

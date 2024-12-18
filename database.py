@@ -5,7 +5,7 @@ import psycopg2
 
 
 
-conn = None #psycopg2.connect(user="postgres", password="flithbo3B", host="127.0.0.1", port="5432", database="postgres")
+conn = psycopg2.connect(user="postgres", password="flithbo3B", host="127.0.0.1", port="5432", database="postgres")
 
 
 conn2 = psycopg2.connect(
@@ -30,7 +30,6 @@ def serve():
 
 
 
-
 def get_recipies(user_id: int):
     cursor = conn.cursor()
     cursor.execute("select recipies.*, case when recipies.id = any (users.liked_recipes) then 1 else 0 end as is_liked from recipies join users on users.id  = %s;", (user_id,))
@@ -40,6 +39,7 @@ def get_recipies(user_id: int):
     
     return {"data": rows, "columns": columns}
 
+print(get_recipies(1))
 
 
 def liked_recipies(user_id: int):
