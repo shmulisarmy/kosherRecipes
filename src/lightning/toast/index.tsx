@@ -13,8 +13,8 @@ const [toasts, setToasts] = createSignal<Toast[]>([
   { id: 4, message: "is", type: "success" },
 ]);
 
-export const addToast = (type: string) => {
-    const newMessage = prompt("Enter message: ");
+export const addToast = (type: string, newMessage: string = "") => {
+    if (newMessage == "") newMessage = prompt("Enter message: ");
     if (newMessage) {
       setToasts((prev) => [
         { id: prev.length, message: newMessage, type },

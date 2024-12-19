@@ -1,4 +1,5 @@
 import { availibleIngredients } from "../data/availibleIngredients";
+import { addToast } from "../lightning/toast";
 
 
 
@@ -11,37 +12,77 @@ import { availibleIngredients } from "../data/availibleIngredients";
  * @returns JSX.Element
  */
 export default function AvailibleIngredientsList(): JSX.Element {
+    let inputRef: HTMLInputElement | undefined;
     return (
-        <ul className="ingredients-list" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        <>
+     
+        <ul class="ingredients-list" style={{ display: 'grid', "grid-template-columns": "repeat(auto-fit, minmax(300px, 1fr))", listStyle: 'none', padding: 0, margin: 0 }}>
             {Object.entries(availibleIngredients).map(([ingredient, quantity]) => (
                 <li
                     key={ingredient}
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0' }}
-                    className={`ingredient-item ${availibleIngredients[ingredient] >= quantity ? 'sufficient' : 'insufficient'}`}
+                    style={{padding: '1rem 0', "border": "1px solid #ccc" }}
+                    class={`ingredient-item`}
                 >
-                    <span className="ingredient-name" style={{ marginRight: '1rem', fontWeight: 'bold' }}>{ingredient}</span>
-                    <span className="ingredient-quantity">
+                    <span class="ingredient-name" style={{ "margin-left": '1rem', "font-weight": 'bold' }}>{ingredient}</span>
+                    <span class="ingredient-quantity">
                         (have: {availibleIngredients[ingredient] || 0})
                         <button
-                            className="decrease-btn"
+                            class="decrease-btn"
+                            onclick={() => {
+                                availibleIngredients[ingredient] -= 1;
+                            }}
                             style={{
-                                marginLeft: '0.5rem',
+                                "margin-left": '0.5rem',
                                 padding: '0.3rem 0.6rem',
                                 border: '1px solid #ccc',
-                                borderRadius: '4px',
-                                backgroundColor: '#f0f0f0',
+                                "border-radius": '4px',
                                 cursor: 'pointer',
                                 transition: 'background-color 0.2s',
                             }}
-                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e0e0e0'}
-                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
                         >
                             -
+                        </button>
+                        <button
+                            class="increase-btn"
+                            style={{
+                                "margin-left": '0.5rem',
+                                padding: '0.3rem 0.6rem',
+                                border: '1px solid #ccc',
+                                "border-radius": '4px',
+                                cursor: 'pointer',
+                                transition: 'background-color 0.2s',
+                            }}
+                            onclick={() => {
+                                availibleIngredients[ingredient] += 1;
+                            }}
+                        >
+                            +
                         </button>
                     </span>
                 </li>
             ))}
         </ul>
+        <form>
+            <label for="new-ingredient">
+                Add new ingredient:
+                <input
+                    ref={inputRef}
+                    type="text"
+                    id="new-ingredient"
+                    name="new-ingredient"
+                />
+            </label>
+            <button onclick={(e) => {
+                console.log(e, inputRef, inputRef?.value, availibleIngredients[inputRef!.value]);
+                e.preventDefault();
+                if (!inputRef?.value) return;
+                if (availibleIngredients[inputRef!.value]) {
+                    addToast("error", `already have ${inputRef!.value}`);
+                    return
+                };
+                availibleIngredients[inputRef!.value] = 0; inputRef!.value = ""}}>Add</button>
+        </form>
+        </>
     );
 }
 

@@ -1,4 +1,4 @@
-import { createSignal, Show } from "solid-js";
+import { createEffect, createSignal, For, Show } from "solid-js";
 import { Dish } from './types/dish';
 import { recipeData } from "./data/all_recipies";
 import { availibleIngredients } from "./data/availibleIngredients";
@@ -11,6 +11,7 @@ import { $A } from "./utils/dom";
 import { createMutable } from "solid-js/store";
 import { is_sequence } from "./lightning/data_picker/utils";
 import Form from "./lightning/form";
+import { liked_recipes, set_liked_recipes } from "./data/liked";
 
 
 
@@ -25,7 +26,7 @@ interface RecipeItemProps {
 }
 
 function RecipeItem({ recipe }: RecipeItemProps) {
-  const [isLiked, setIsLiked] = createSignal(recipe.is_liked === 1);
+  const [isLiked, setIsLiked] = createSignal(recipe.is_liked);
   const [isVisible, setIsVisible] = createSignal(false);
   const [showOptions, setShowOptions] = createSignal(false);
 
@@ -75,7 +76,14 @@ function RecipeItem({ recipe }: RecipeItemProps) {
         />
         <h3>{profiles[recipe.id % profiles.length].name}</h3>
         {/* </div> */}
-        <button onClick={() => setIsLiked((prev) => !prev)}>
+        <button
+          onClick={() => {
+            setIsLiked((prev) => {
+              set_liked_recipes(recipe.id, !prev);
+              return !prev;
+            });
+          }}
+        >
           {isLiked() ? "♡" : "♥"}
         </button>
       </div>
@@ -83,9 +91,11 @@ function RecipeItem({ recipe }: RecipeItemProps) {
         <strong>Time to make:</strong> {recipe.time_to_make} minutes
       </p>
 
-
-      
-      <details open class="details" style={{ border: "1px solid rgb(145,145,145)" }}>
+      <details
+        open
+        class="details"
+        style={{ border: "1px solid rgb(145,145,145)" }}
+      >
         <summary>logistics</summary>
         <div
           style={{ color: canMakeRecipe(recipe) ? "green" : "red" }}
@@ -164,8 +174,8 @@ function Ingredients_display({ ingredients }: { ingredients: { [key: string]: nu
   );
 }
 
-function RecipeList({recipeData}: {recipeData: Dish[]}) {
-  const time_filter = createMutable({greater_than: 20, less_than: 60})
+function RecipeList({recipeData, should_show}: {recipeData: Dish[], should_show?: (recipe: Dish) => boolean}) {
+  const time_filter = createMutable({greater_than: 0, less_than: 120})
   let ref: HTMLFormElement | undefined = undefined
   return(
     <>
@@ -179,11 +189,13 @@ function RecipeList({recipeData}: {recipeData: Dish[]}) {
     </div>
     
     <div ref={ref} class="recipe-list">
-    {recipeData.map((recipe, index) => (
+    <For each={recipeData}>
+      {(recipe, index) => (
       <>
-      {is_sequence(recipe.time_to_make, time_filter.greater_than, time_filter.less_than) && <RecipeItem key={recipe.id} recipe={recipe} />}
+      {is_sequence(recipe.time_to_make, time_filter.greater_than, time_filter.less_than) && (should_show ? should_show(recipe) : true) && <RecipeItem key={recipe.id} recipe={recipe} />}
       </>
-    ))}
+    )}
+    </For>
     </div>
     </>
   )
@@ -208,7 +220,150 @@ export function AllRecipes() {
     <Blog ref={blog_ref3} title="The friday fiasco" headline="1000 found at the gateway" content={"Hello"} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
         <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
       <RecipeList recipeData={recipeData} />
+
+
+
+      <RecipeList recipeData={recipeData} />
+      <Blog ref={blog_ref1} title="The friday fiasco" headline="1000 found at the gateway" content="On a sunny friday morning, forest near my home. As I was strolling, I stumbled upon a small clearing. And to my surprise, I found 1000 dollars just lying there. I couldn't believe my eyes! I had always dreamed of finding a treasure, and here it was. I quickly grabbed the money and started to make my way back home, feeling like the luckiest person alive. But little did I know, my adventure was just beginning..." imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref2} title="The friday fiasco" headline="1000 found at the gateway" content={"during my journey along the broken path towards new beginnings i flew over the mountains of time."} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref1!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <button onclick={() => blog_ref3!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref3} title="The friday fiasco" headline="1000 found at the gateway" content={"Hello"} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+        <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <RecipeList recipeData={recipeData} />
+    
+
+
+
+      <RecipeList recipeData={recipeData} />
+      <Blog ref={blog_ref1} title="The friday fiasco" headline="1000 found at the gateway" content="On a sunny friday morning, forest near my home. As I was strolling, I stumbled upon a small clearing. And to my surprise, I found 1000 dollars just lying there. I couldn't believe my eyes! I had always dreamed of finding a treasure, and here it was. I quickly grabbed the money and started to make my way back home, feeling like the luckiest person alive. But little did I know, my adventure was just beginning..." imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref2} title="The friday fiasco" headline="1000 found at the gateway" content={"during my journey along the broken path towards new beginnings i flew over the mountains of time."} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref1!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <button onclick={() => blog_ref3!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref3} title="The friday fiasco" headline="1000 found at the gateway" content={"Hello"} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+        <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <RecipeList recipeData={recipeData} />
+    
+
+
+
+      <RecipeList recipeData={recipeData} />
+      <Blog ref={blog_ref1} title="The friday fiasco" headline="1000 found at the gateway" content="On a sunny friday morning, forest near my home. As I was strolling, I stumbled upon a small clearing. And to my surprise, I found 1000 dollars just lying there. I couldn't believe my eyes! I had always dreamed of finding a treasure, and here it was. I quickly grabbed the money and started to make my way back home, feeling like the luckiest person alive. But little did I know, my adventure was just beginning..." imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref2} title="The friday fiasco" headline="1000 found at the gateway" content={"during my journey along the broken path towards new beginnings i flew over the mountains of time."} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref1!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <button onclick={() => blog_ref3!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref3} title="The friday fiasco" headline="1000 found at the gateway" content={"Hello"} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+        <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <RecipeList recipeData={recipeData} />
+    
+
+
+
+      <RecipeList recipeData={recipeData} />
+      <Blog ref={blog_ref1} title="The friday fiasco" headline="1000 found at the gateway" content="On a sunny friday morning, forest near my home. As I was strolling, I stumbled upon a small clearing. And to my surprise, I found 1000 dollars just lying there. I couldn't believe my eyes! I had always dreamed of finding a treasure, and here it was. I quickly grabbed the money and started to make my way back home, feeling like the luckiest person alive. But little did I know, my adventure was just beginning..." imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref2} title="The friday fiasco" headline="1000 found at the gateway" content={"during my journey along the broken path towards new beginnings i flew over the mountains of time."} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref1!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <button onclick={() => blog_ref3!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref3} title="The friday fiasco" headline="1000 found at the gateway" content={"Hello"} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+        <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <RecipeList recipeData={recipeData} />
+    
+
+
+
+
+      <RecipeList recipeData={recipeData} />
+      <Blog ref={blog_ref1} title="The friday fiasco" headline="1000 found at the gateway" content="On a sunny friday morning, forest near my home. As I was strolling, I stumbled upon a small clearing. And to my surprise, I found 1000 dollars just lying there. I couldn't believe my eyes! I had always dreamed of finding a treasure, and here it was. I quickly grabbed the money and started to make my way back home, feeling like the luckiest person alive. But little did I know, my adventure was just beginning..." imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref2} title="The friday fiasco" headline="1000 found at the gateway" content={"during my journey along the broken path towards new beginnings i flew over the mountains of time."} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref1!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <button onclick={() => blog_ref3!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref3} title="The friday fiasco" headline="1000 found at the gateway" content={"Hello"} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+        <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <RecipeList recipeData={recipeData} />
+    
+
+
+
+      <RecipeList recipeData={recipeData} />
+      <Blog ref={blog_ref1} title="The friday fiasco" headline="1000 found at the gateway" content="On a sunny friday morning, forest near my home. As I was strolling, I stumbled upon a small clearing. And to my surprise, I found 1000 dollars just lying there. I couldn't believe my eyes! I had always dreamed of finding a treasure, and here it was. I quickly grabbed the money and started to make my way back home, feeling like the luckiest person alive. But little did I know, my adventure was just beginning..." imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref2} title="The friday fiasco" headline="1000 found at the gateway" content={"during my journey along the broken path towards new beginnings i flew over the mountains of time."} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref1!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <button onclick={() => blog_ref3!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref3} title="The friday fiasco" headline="1000 found at the gateway" content={"Hello"} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+        <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <RecipeList recipeData={recipeData} />
+    
+
+
+
+      <RecipeList recipeData={recipeData} />
+      <Blog ref={blog_ref1} title="The friday fiasco" headline="1000 found at the gateway" content="On a sunny friday morning, forest near my home. As I was strolling, I stumbled upon a small clearing. And to my surprise, I found 1000 dollars just lying there. I couldn't believe my eyes! I had always dreamed of finding a treasure, and here it was. I quickly grabbed the money and started to make my way back home, feeling like the luckiest person alive. But little did I know, my adventure was just beginning..." imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref2} title="The friday fiasco" headline="1000 found at the gateway" content={"during my journey along the broken path towards new beginnings i flew over the mountains of time."} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref1!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <button onclick={() => blog_ref3!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref3} title="The friday fiasco" headline="1000 found at the gateway" content={"Hello"} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+        <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <RecipeList recipeData={recipeData} />
+    
+
+
+
+      <RecipeList recipeData={recipeData} />
+      <Blog ref={blog_ref1} title="The friday fiasco" headline="1000 found at the gateway" content="On a sunny friday morning, forest near my home. As I was strolling, I stumbled upon a small clearing. And to my surprise, I found 1000 dollars just lying there. I couldn't believe my eyes! I had always dreamed of finding a treasure, and here it was. I quickly grabbed the money and started to make my way back home, feeling like the luckiest person alive. But little did I know, my adventure was just beginning..." imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref2} title="The friday fiasco" headline="1000 found at the gateway" content={"during my journey along the broken path towards new beginnings i flew over the mountains of time."} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref1!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <button onclick={() => blog_ref3!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref3} title="The friday fiasco" headline="1000 found at the gateway" content={"Hello"} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+        <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <RecipeList recipeData={recipeData} />
+    
+
+
+
+      <RecipeList recipeData={recipeData} />
+      <Blog ref={blog_ref1} title="The friday fiasco" headline="1000 found at the gateway" content="On a sunny friday morning, forest near my home. As I was strolling, I stumbled upon a small clearing. And to my surprise, I found 1000 dollars just lying there. I couldn't believe my eyes! I had always dreamed of finding a treasure, and here it was. I quickly grabbed the money and started to make my way back home, feeling like the luckiest person alive. But little did I know, my adventure was just beginning..." imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref2} title="The friday fiasco" headline="1000 found at the gateway" content={"during my journey along the broken path towards new beginnings i flew over the mountains of time."} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <button onclick={() => blog_ref1!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <button onclick={() => blog_ref3!.scrollIntoView({behavior: "smooth"})}>next blog</button>
+      <RecipeList recipeData={recipeData} />
+    <Blog ref={blog_ref3} title="The friday fiasco" headline="1000 found at the gateway" content={"Hello"} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+        <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
+      <RecipeList recipeData={recipeData} />
+    
+
+
+    <h1>Liked recipes</h1>
+      <RecipeList should_show={(recipe: Dish) => liked_recipes[recipe.id]} recipeData={recipeData} />
+        <button onclick={() => console.log(liked_recipes)}>log likes</button>
       </>
   );
 }
+
+
 
