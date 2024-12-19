@@ -4,7 +4,7 @@ import { recipeData } from "../data/all_recipies";
 
 export default function RecipePlanner() {
     return (
-        <div class="recipe-planner">
+        <div id="recipe-planner">
             <h2>Recipe Planner</h2>
             <ul>
                 {Object.entries(recipies_making).map(([name, quantity]) => (

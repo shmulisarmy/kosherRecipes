@@ -1,0 +1,5 @@
+get more of item link: https://www.costcobusinessdelivery.com/CatalogSearch?keyword=${ingredient}
+
+
+
+the question is when displaying the different recipes is it multiple different lists (catoagories of different kinds of recipes) followed by a blog or one list where the blog is inserted based on every 6th index (asumming that there can be 1, 2 or recipes per row)

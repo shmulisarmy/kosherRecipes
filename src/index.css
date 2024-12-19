@@ -1,15 +1,19 @@
+body{
+  margin-top: 50px;
+}
+
 
 .recipe-list {
   /* margin: 20px; */
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: 20px;
   padding: 20px;
 }
 
 @media screen and (max-width: 668px) {
   .recipe-list {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
 }
 
@@ -95,6 +99,7 @@
   border-radius: 4px;
   cursor: pointer;
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .toggle-visibility:hover {
@@ -183,9 +188,52 @@ button:disabled {
     height: 40px;
   }
 }
-/* 
-@starting-style{
-  .planner button{
-    width: 40%;
+
+
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
   }
-} */
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.loading span:nth-child(1) {
+  animation-delay: 0s;
+}
+.loading span:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.loading span:nth-child(3) {
+  animation-delay: 0.1s;
+}
+.loading span:nth-child(4) {
+  animation-delay: 0.15s;
+}
+.loading span:nth-child(5) {
+  animation-delay: 0.2s;
+}
+.loading span:nth-child(6) {
+  animation-delay: 0.25s;
+}
+.loading span:nth-child(7) {
+  animation-delay: 0.3s;
+}
+.loading span:nth-child(8) {
+  animation-delay: 0.35s;
+}
+.loading span:nth-child(9) {
+  animation-delay: 0.4s;
+}
+.loading span:nth-child(10) {
+  animation-delay: 0.45s;
+}
+.loading span{
+  display: inline-block;
+  animation: bounce 1s infinite;
+}

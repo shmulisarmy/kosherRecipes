@@ -5,7 +5,7 @@ export const availibleIngredients = createMutable<{ [key: string]: number; }>({
   eggs: 1,
   bacon: 1,
   pasta: 1,
-  pepper: 10,
+  pepper: 2,
   parmesan: 2,
   onion: 1,
   garlic: 1,

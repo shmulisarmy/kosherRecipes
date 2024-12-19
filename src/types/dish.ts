@@ -5,4 +5,5 @@ export type Dish = {
   time_to_make: number,
   image_url: string,
   is_liked: number,
+  message?: string
 };
