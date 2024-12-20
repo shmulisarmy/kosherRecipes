@@ -8,6 +8,7 @@ export function canMakeRecipe(recipe: Dish): boolean {
   });
 }
 export function canMakePercentage(recipe: Dish): number {
+  console.count("canMakePercentage");
   const requiredIngredients = recipe.ingredients;
   const percentage_map_per_ingredient: { [key: string]: number; } = {};
   Object.entries(requiredIngredients).forEach(([ingredient, quantity]) => {

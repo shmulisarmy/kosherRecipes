@@ -6,6 +6,8 @@ Project Description
 
 ### Todo
 
+- [ ] organize css styles  
+- [ ] cheapest price to buy all ingredients to make recipe  
 - [ ] add my version of pages so i can have all recipes, liked recipes, my recipes and recipies from people i follow  
 - [ ] about to spoil food warning  
 - [ ] recite scan and process  

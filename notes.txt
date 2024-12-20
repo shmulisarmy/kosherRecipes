@@ -2,4 +2,13 @@ get more of item link: https://www.costcobusinessdelivery.com/CatalogSearch?keyw
 
 
 
-the question is when displaying the different recipes is it multiple different lists (catoagories of different kinds of recipes) followed by a blog or one list where the blog is inserted based on every 6th index (asumming that there can be 1, 2 or recipes per row)
+
+
+
+there are 2 problems: 1 if an ingredient is an ingredient and a snack and also food spoils
+
+
+
+
+buisines: 
+    when the see cheapest price to make feature is added then this webapp can atract new users where their first ingredients are purchased directly to make something and with the leftovers they can make other things
