@@ -9,12 +9,15 @@ import Nav from './components/Nav';
 import Toaster from './lightning/toast';
 import Letter_animator from './lightning/letter_animator';
 
+import kitchen_chaos_1 from "./assets/images/kitchen-chaos-1.webp"
+import kitchen_chaos_2 from "./assets/images/kitchen-chaos-2.webp"
+
 
 function Carousell(){
   const [imageShowing, setImageShowing] = createSignal(0);
   const image_links = [
-    "https://files.oaiusercontent.com/file-AHg4gWaLcqcvx1oadFNhic?se=2024-12-18T10%3A16%3A19Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dceb738d3-64fc-4375-ad3a-73677fd51a95.webp&sig=nkGe7tyx2N0ZrbJXNKn8SJcI%2BFXMOgguj%2BbsMxm1a24%3D",
-    "https://files.oaiusercontent.com/file-ULPiTmTXB5EVApBe57esRF?se=2024-12-18T10%3A20%3A21Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D5ea55186-44d1-4320-ba1e-d7e254ef386e.webp&sig=DNHKbH4owjvAosxAVsUaVZjGapv9KcMhpezxxmquSAw%3D",
+    kitchen_chaos_1,
+    kitchen_chaos_2,
 
   ]
   let image_ref: HTMLImageElement | undefined = undefined

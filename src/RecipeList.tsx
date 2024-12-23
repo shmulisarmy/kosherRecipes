@@ -182,8 +182,9 @@ function RecipeList({recipeData, should_show}: {recipeData: Dish[], should_show?
     <div style={{border: "1px solid rgb(145,145,145)", width: "fit-content", margin: "0 auto", padding: "2%"}} class="too-bar">
 
     <h3 style={{"font-size": "2rem"}}>🛠️ tool bar</h3>
+    <h4>filter recipes by time to make</h4>
     <Form data={time_filter}></Form>
-    <p>show all recipes that take between {time_filter.greater_than} and {time_filter.less_than} minutes</p>
+    <p>show all recipes that take between {time_filter.greater_than} and {time_filter.less_than} minutes to make</p>
     <button onclick={() => $A(".details", ref)?.forEach(detail => detail.removeAttribute("open"))}>colapse all logistics details</button>
     <button onclick={() => $A(".details", ref)?.forEach(detail => detail.setAttribute("open", ""))}>expand all logistics details</button>
     </div>

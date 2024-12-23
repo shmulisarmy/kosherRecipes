@@ -34,8 +34,8 @@
     align-items: center;
     bottom: 0;
     right: 0;
-    width: 220px;
-    height: 40px;
+    width: 400px;
+    height: 60px;
     background-color: var(--toast-bg-color);
     color: var(--toast-text-color);
     transition: transform 1.2s ease;

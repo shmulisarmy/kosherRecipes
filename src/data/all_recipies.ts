@@ -27,7 +27,7 @@ export const recipeData: Dish[] = [
     {
         id: 1,
         name: 'Pasta Carbonara',
-        ingredients: { eggs: 2, bacon: 100, pasta: 200, pepper: 1, parmesan: 50 },
+        ingredients: { w: 2, bacon: 100, pasta: 200, pepper: 1, parmesan: 50 },
         time_to_make: 20,
         image_url: 'https://www.mybakingaddiction.com/wp-content/uploads/2023/05/bite-of-pasta-carbonara-hero.jpg',
         message: 'The best pasta in the world! ',
