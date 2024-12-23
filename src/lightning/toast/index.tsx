@@ -6,24 +6,38 @@ import type { Toast } from "./types";
 
 // Initial toasts data
 const [toasts, setToasts] = createSignal<Toast[]>([
-  { id: 0, message: "cool", type: "success" },
-  { id: 1, message: "supper", type: "warning" },
-  { id: 2, message: "and", type: "success" },
-  { id: 3, message: "awesome", type: "error" },
-  { id: 4, message: "is", type: "success" },
+  { id: 0, message: "cool", type: "success", duration: 3000, html: <div style={{
+    "text-align": "left",
+    "font-size": "1.2rem",
+    "line-height": ".2rem",
+  }}>
+  <h3>
+    Success
+  </h3>
+  <p style={{
+    color: "black",
+  }}>
+    cool
+  </p>
+  </div> },
+  { id: 1, message: "supper", type: "warning", duration: 3000, header: "Warning" },
+  { id: 2, message: "and", type: "success", duration: 3000, header: "Success" },
+  { id: 3, message: "awesome", type: "error", duration: 3000, header: "Error" },
+  { id: 4, message: "is", type: "success", duration: 3000, header: "Success" },
 ]);
 
-export const addToast = (type: string, newMessage: string = "") => {
-    if (newMessage == "") newMessage = prompt("Enter message: ");
-    if (newMessage) {
+
+let toast_id = 0;
+
+export const addToast = (type: string, html: HTMLElement, duration: number = 3000) => {
+      const this_toasts_id = toast_id++;
       setToasts((prev) => [
-        { id: prev.length, message: newMessage, type },
+        { id: this_toasts_id, html, duration },
         ...prev,
       ]);
-    }
-    let most_recent_toast = document.querySelector(`[data-id="${newMessage}"]`);
-    if (most_recent_toast) {
-      most_recent_toast.animate(
+    let this_toast_element = document.querySelector(`[data-id="${this_toasts_id}"]`);
+    if (this_toast_element) {
+      this_toast_element.animate(
         [
           { transform: "translateX(100%) translateY(-20px)" },
           { transform: "translateY(-20px)" },
@@ -34,7 +48,13 @@ export const addToast = (type: string, newMessage: string = "") => {
         }
       )
     }
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== this_toasts_id));
+    }, duration);
   };
+
+
+
 
 const Toaster: Component = () => {
   const [isHovering, setIsHovering] = createSignal(false);
@@ -70,7 +90,7 @@ const Toaster: Component = () => {
 export default Toaster;
 function Toast({toast, index, isHovering}: {toast: Toast, index: () => number, isHovering: () => boolean}) {
     return <div
-        data-id={toast.message}
+        data-id={toast.id}
         class={`${styles.toast} ${styles[toast.type]}`}
         style={{
             "z-index": 7 - index(),
@@ -80,10 +100,10 @@ function Toast({toast, index, isHovering}: {toast: Toast, index: () => number, i
         }}
     >
             {svgs[toast.type]()}
-        <p>
+            <div class={styles.content} style={{"margin-left": "16px"}}>
 
-    {toast.message}
-        </p>
+            {toast.html}
+            </div>
 
         <button
             class={styles.toastButton}
