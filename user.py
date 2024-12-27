@@ -8,7 +8,7 @@ class User:
         self.password = password
         self.id: int = 11
         self.available_ingredients = {
-            "eggs": 2,
+            "eggs": 0,
             "pasta": 200,
             "bacon": 100,
             "pepper": 1,

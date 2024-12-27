@@ -1,7 +1,13 @@
+
+
+
+
 export type Toast = {
   id: number;
-  duration: number;
-  header: string;
-  message: string;
+  duration?: number;
+  content: Element | {
+    header: string;
+    message: string;
+  };
   type: string;
 };

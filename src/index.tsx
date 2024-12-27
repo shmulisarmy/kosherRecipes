@@ -2,6 +2,7 @@
 import { render } from 'solid-js/web';
 
 import './index.css?nocache';
+import './theme.css?nocache';
 import App from './App';
 
 const root = document.getElementById('root');

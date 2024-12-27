@@ -1,17 +1,22 @@
 import { createEffect, createSignal, For, Show } from "solid-js";
+import { createMutable } from "solid-js/store";
+
+import Form from "./lightning/form";
+import Profile from "./lightning/profile";
+import Blog from "./lightning/blog";
+import Blog_card from "./lightning/blog-card";
+
 import { Dish } from './types/dish';
 import { recipeData } from "./data/all_recipies";
 import { availibleIngredients } from "./data/availibleIngredients";
 import { canMakeRecipe, canMakePercentage } from "./canMakeRecipe";
 import { recipies_making } from "./data/recipies_making";
 import { add_to_planner } from "./statfullUtils.ts/add_to_planner";
-import Blog from "./lightning/blog";
-import Profile from "./lightning/profile";
 import { $A } from "./utils/dom";
-import { createMutable } from "solid-js/store";
 import { is_sequence } from "./lightning/data_picker/utils";
-import Form from "./lightning/form";
 import { liked_recipes, set_liked_recipes } from "./data/liked";
+import { profiles as profiles_data } from "./lightning/blog-card/data";
+
 
 
 
@@ -112,7 +117,7 @@ function RecipeItem({ recipe }: RecipeItemProps) {
           value={canMakePercentage(recipe)}
           max="100"
           style={{
-            "--progress-bar-color": canMakeRecipe(recipe) ? "green" : "red",
+            "--progress-bar-color": canMakeRecipe(recipe) ? "green" : canMakePercentage(recipe) > 75 ? "orange" : "red",
           }}
         >
           {Math.round(canMakePercentage(recipe))}%
@@ -211,10 +216,12 @@ export function AllRecipes() {
     <>
 
       <RecipeList recipeData={recipeData} />
-      <Blog ref={blog_ref1} title="The friday fiasco" headline="1000 found at the gateway" content="On a sunny friday morning, forest near my home. As I was strolling, I stumbled upon a small clearing. And to my surprise, I found 1000 dollars just lying there. I couldn't believe my eyes! I had always dreamed of finding a treasure, and here it was. I quickly grabbed the money and started to make my way back home, feeling like the luckiest person alive. But little did I know, my adventure was just beginning..." imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
       <button onclick={() => blog_ref2!.scrollIntoView({behavior: "smooth"})}>next blog</button>
-      <RecipeList recipeData={recipeData} />
-    <Blog ref={blog_ref2} title="The friday fiasco" headline="1000 found at the gateway" content={"during my journey along the broken path towards new beginnings i flew over the mountains of time."} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" place_first="text"> </Blog>
+      <div style={{padding: "120px", display: "flex", gap: "20px", "flex-wrap": "wrap"}}>
+
+      <Blog_card profile={profiles_data[0]}></Blog_card>
+      <Blog_card profile={profiles_data[1]}></Blog_card>
+      </div>
       <button onclick={() => blog_ref1!.scrollIntoView({behavior: "smooth"})}>previous blog</button>
       <button onclick={() => blog_ref3!.scrollIntoView({behavior: "smooth"})}>next blog</button>
       <RecipeList recipeData={recipeData} />

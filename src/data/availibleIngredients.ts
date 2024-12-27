@@ -4,7 +4,7 @@ import { addToast } from '../lightning/toast';
 
 
 export const availibleIngredients = createMutable<{ [key: string]: number; }>({
-  eggs: 7,
+  eggs: 2,
   bacon: 1,
   pasta: 1,
   pepper: 2,
@@ -43,7 +43,7 @@ function watch(ingredient: string, amount: number) {
   ingredients_watching.set(ingredient, amount)
   createEffect(() => {
     if (availibleIngredients[ingredient] < ingredients_watching.get(ingredient)!) {
-      addToast('warning', `you are running low on ${ingredient}, only ${availibleIngredients[ingredient]} left`)
+      addToast('warning', {header: `running low on ${ingredient}`, message: `only ${availibleIngredients[ingredient]} left`}, 30000)
     }
     
   })

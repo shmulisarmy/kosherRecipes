@@ -6,45 +6,24 @@ import { AllRecipes } from './RecipeList';
 import AvailibleIngredients from './components/availibleIngredients';
 import RecipePlanner from './components/recipie_planner';
 import Nav from './components/Nav';
-import Toaster from './lightning/toast';
+import Toaster, { addToast } from './lightning/toast';
 import Letter_animator from './lightning/letter_animator';
 
 import kitchen_chaos_1 from "./assets/images/kitchen-chaos-1.webp"
 import kitchen_chaos_2 from "./assets/images/kitchen-chaos-2.webp"
+import { Image_toggler } from './components/image_toggler';
+import { ThemeToggle } from './components/ThemeToggle';
 
 
-function Carousell(){
-  const [imageShowing, setImageShowing] = createSignal(0);
-  const image_links = [
-    kitchen_chaos_1,
-    kitchen_chaos_2,
+import Blog_card from './lightning/blog-card';
 
-  ]
-  let image_ref: HTMLImageElement | undefined = undefined
-  setInterval(() => {
-    setImageShowing(imageShowing() + 1)
-    image_ref!.animate(
-      [
-        { transform: "scale(.8)", },
-        {  },
-      ],
-      {
-        duration: 1000,
-        easing: "ease-out",
-      }
-    )
-  }, 5000)
-  return (<>
-  <img ref={image_ref} style={{"aspect-ratio": "16/9", height: "calc(25vw + 200px)"}} src={image_links[imageShowing() % image_links.length]} alt="" />
-  
-  </>)
-}
 
 const App: Component = () => {
   return (
     <div class={styles.App}>
+      <ThemeToggle></ThemeToggle>
       <header>
-      <Carousell></Carousell>
+      <Image_toggler image_links={[kitchen_chaos_1, kitchen_chaos_2]}></Image_toggler>
       </header>
       <div style={{padding: "20px", "font-size": "2rem", "font-family": "monospace", "text-shadow": "1px 3px 10px grey", color: "darkblue", "box-shadow": "1px 3px 10px grey", width: "60%", "margin-left": "auto", "margin-right": "auto", "margin-top": "100px", "margin-bottom": "50px"}}>
 
@@ -55,20 +34,13 @@ const App: Component = () => {
       <AvailibleIngredients></AvailibleIngredients>
       <RecipePlanner></RecipePlanner>
       <Toaster></Toaster>
-      <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
-      </header>
+      <button onclick={() => {
+        addToast("error", (<div>
+          <h2>error</h2>
+          <p>please contact the <a style={{color: "white"}} href="mailto:shmulis.army@gmail.com">developer</a></p>
+        </div> as Element), 10000)
+      }}>
+      </button>
     </div>
   );
 };

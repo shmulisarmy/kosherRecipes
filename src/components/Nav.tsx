@@ -14,9 +14,9 @@ export default function Nav() {
           "justify-content": "space-around",
           "align-items": "center",
           padding: "10px",
-          background: "rgba(255, 255, 255, 0.96)",
+          background: "var(--background-color)",
           "box-shadow": "0 2px 4px rgba(0, 0, 0, 0.1)",
-          "border-bottom": "2px solid lightgrey",
+          "border-bottom": "2px solid var(--border-color)",
           "z-index": 999,
         }}
     >
@@ -33,7 +33,6 @@ export default function Nav() {
     "border-radius": "20px",
     "box-shadow": "0 2px 4px rgba(0, 0, 0, 0.1)",
    }} type="search" />
-   
       <div
         class="links"
         style={{
@@ -48,6 +47,8 @@ export default function Nav() {
         <a style={{ float: "right" }} href="/logout">
           Logout
         </a>
+  <button onclick={() => document.body.classList.toggle("dark-mode")}>dark mode</button> 
+
       </div>
     
     </nav>
