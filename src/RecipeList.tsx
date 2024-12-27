@@ -195,7 +195,7 @@ function RecipeList({recipeData, should_show}: {recipeData: Dish[], should_show?
     </div>
     
     <div ref={ref} class="recipe-list">
-    <For each={recipeData}>
+    <For each={recipeData()}>
       {(recipe, index) => (
       <>
       {is_sequence(recipe.time_to_make, time_filter.greater_than, time_filter.less_than) && (should_show ? should_show(recipe) : true) && <RecipeItem key={recipe.id} recipe={recipe} />}
