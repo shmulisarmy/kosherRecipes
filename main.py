@@ -20,6 +20,3 @@ def recipies():
 @app.route('/assets/<path:path>')
 def serve_assets(path):
     return send_from_directory('dist/assets', path)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
