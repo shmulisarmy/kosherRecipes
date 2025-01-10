@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, render_template, send_from_directory
 import os
 
+import uvicorn
+
 from data import all_recipies
 
 app = Flask(__name__, 
@@ -20,3 +22,7 @@ def recipies():
 @app.route('/assets/<path:path>')
 def serve_assets(path):
     return send_from_directory('dist/assets', path)
+
+
+if __name__ == "__main__":
+    app.run()

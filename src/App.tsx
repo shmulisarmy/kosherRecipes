@@ -1,4 +1,4 @@
-import { createSignal, type Component } from 'solid-js';
+import { createSignal, Show, Suspense, type Component } from 'solid-js';
 
 import logo from './logo.svg';
 import styles from './App.module.css';
@@ -16,16 +16,20 @@ import { ThemeToggle } from './components/ThemeToggle';
 
 
 import Blog_card from './lightning/blog-card';
+import { recipeData, state } from './data/all_recipies';
 
 
 const App: Component = () => {
   return (
+    <>
     <div class={styles.App}>
+      <button onclick={() => console.log(recipeData)}>log recipes</button>
+      
       <ThemeToggle></ThemeToggle>
       <header>
       <Image_toggler image_links={[kitchen_chaos_1, kitchen_chaos_2]}></Image_toggler>
       </header>
-      <div style={{padding: "20px", "font-size": "2rem", "font-family": "monospace", "text-shadow": "1px 3px 10px grey", color: "darkblue", "box-shadow": "1px 3px 10px grey", width: "60%", "margin-left": "auto", "margin-right": "auto", "margin-top": "100px", "margin-bottom": "50px"}}>
+      <div>
 
        <Letter_animator letters="let the chaos manage itself" speed={105}></Letter_animator>
       </div>
@@ -42,6 +46,7 @@ const App: Component = () => {
       }}>
       </button>
     </div>
+    </>
   );
 };
 

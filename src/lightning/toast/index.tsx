@@ -170,8 +170,8 @@ function Toast({
       style={{
         "z-index": 7 - index(),
         transform: !isHovering()
-          ? `translateY(-${20 + index() * 5}px) scale(${0.93 - index() * 0.02})`
-          : `translateY(-${20 + index() * 80}px)`,
+          ? `translateY(-${0 + index() * 4}px) scale(${0.93 - index() * 0.02})`
+          : `translateY(-${0 + index() * 80}px)`,
       }}
     >
       {svgs[toast.type]()}

@@ -7,14 +7,14 @@
   --background-color: rgb(255, 255, 255);
   --background-color-accent: rgb(255, 255, 255);
   --text-color: black;
-  --color-border: #a58d8d;
-  --button-color: #666;
+  --color-border: #ebe7e7;
+  --button-color: darkorange;
   --button-hover-color: #333;
   --primary-color: darkgreen;
   --message-background: rgba(0, 0, 0, 0.05);
   --message-hover: rgba(0, 0, 0, 0.1);
   --color-text: var(--text-color);
-  --color-text-secondary: #666;
+  --color-text-secondary: #7c7171;
   --color-button: var(--button-color);
   --color-button-hover: var(--button-hover-color);
   --shadow-color: rgba(0, 0, 0, 0.1);

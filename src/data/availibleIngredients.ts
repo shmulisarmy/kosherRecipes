@@ -8,7 +8,6 @@ export const availibleIngredients = createMutable<{ [key: string]: number; }>({
   bacon: 1,
   pasta: 1,
   pepper: 2,
-  parmesan: 2,
   onion: 1,
   garlic: 1,
   chicken: 1,
@@ -28,6 +27,20 @@ export const availibleIngredients = createMutable<{ [key: string]: number; }>({
   yogurt: 1,
   blueberries: 1,
   strawberries: 1,
+    "spinach": 200,
+    "parmesan": 30,
+    "olive_oil": 30,
+    "pine_nuts": 50,
+    "feta_cheese": 100,
+    "lemon_juice": 15,
+    "black_pepper": 3,
+    "garlic_cloves": 2,
+    "carrots": 2,
+    "parsley": 10,
+    "potatoes": 3,
+    "bay_leaves": 2,
+    "fresh_thyme": 30,
+    "vegetable_broth": 5000,
 });
 
 
